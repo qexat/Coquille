@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 from collections.abc import Callable
+from dataclasses import dataclass
 from typing import overload
 from typing import TYPE_CHECKING
 
@@ -40,6 +41,13 @@ def prepare(
     *args: P.args,
     **kwargs: P.kwargs,
 ) -> EscapeSequence:
+    """
+    Prepare an escape sequence.
+
+    If `sequence` is already one, it is returned ; else, it passes
+    the arguments to the escape sequence factory to construct one.
+    """
+
     if isinstance(sequence, str):
         return sequence
 
@@ -67,6 +75,10 @@ def apply(
     *args: P.args,
     **kwargs: P.kwargs,
 ) -> None:
+    """
+    Apply an escape sequence to a stream (by default, stdout).
+    """
+
     string: EscapeSequence = prepare(sequence, *args, **kwargs)
     target = file or sys.stdout
     target.write(string)  # type: ignore[unused]
@@ -120,20 +132,10 @@ class _ContextCoquille:
         apply(soft_reset, self.file)
 
 
+@dataclass(slots=True)
 class Coquille:
-    __slots__ = ("sequences", "file")
-
-    def __init__(
-        self,
-        sequences: list[EscapeSequence],
-        file: SupportsWrite[str] | None,
-    ) -> None:
-        """
-        "Pure" constructor of a Coquille, i.e. where args = attributes.
-        """
-
-        self.sequences = sequences
-        self.file = file
+    sequences: list[EscapeSequence]
+    file: SupportsWrite[str] | None
 
     @overload
     @classmethod
