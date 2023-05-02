@@ -3,17 +3,21 @@ from __future__ import annotations
 import sys
 from collections.abc import Callable
 from typing import overload
+from typing import TYPE_CHECKING
 
 from coquille.sequences import EscapeSequence
 from coquille.sequences import soft_reset
-from coquille.typeshed import SupportsWrite
 
 __all__ = ["apply", "Coquille", "EscapeSequence", "prepare"]
 
-if sys.version_info >= (3, 10):
-    from typing import ParamSpec
+# ... don't say anything.
+if TYPE_CHECKING:
+    if sys.version_info >= (3, 10):
+        from typing import ParamSpec
 
-    P = ParamSpec("P")
+        P = ParamSpec("P")
+
+    from coquille.typeshed import SupportsWrite
 
 
 @overload

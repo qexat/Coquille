@@ -19,8 +19,6 @@ Some are also taken from Microsoft documentation:
 - [U] = the abbreviation was made up for convenience.
 - [RS] = rarely (never, basically) supported.
 """
-from __future__ import annotations
-
 from typing import Literal
 from typing import NewType
 
