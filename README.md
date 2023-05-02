@@ -27,9 +27,9 @@ with Coquille.new(fg_magenta, italic) as coquille:
 print("Oh, we are back to normal now...")
 ```
 
-![screenshot.png](./examples/coquille_context/screenshot.png)
+![screenshot.png](https://raw.githubusercontent.com/qexat/Coquille/main/examples/coquille_context/screenshot.png)
 
-Source code: [examples/coquille_context/](./examples/coquille_context/__main__.py)
+Source code: [examples/coquille_context/](https://github.com/qexat/Coquille/blob/main/examples/coquille_context/__main__.py)
 
 ## Documentation
 
