@@ -14,6 +14,4 @@ class SupportsWrite(Protocol[_T_contra]):
         ...
 
 
-class SupportsWriteAndFlush(SupportsWrite[_T_contra], Protocol[_T_contra]):
-    def flush(self) -> None:
-        ...
+Self = TypeVar("Self")

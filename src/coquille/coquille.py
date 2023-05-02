@@ -17,6 +17,7 @@ if TYPE_CHECKING:
 
         P = ParamSpec("P")
 
+    from coquille.typeshed import Self
     from coquille.typeshed import SupportsWrite
 
 
@@ -134,12 +135,26 @@ class Coquille:
         self.sequences = sequences
         self.file = file
 
+    @overload
+    @classmethod
+    def new(cls: type[Self], *sequences: EscapeSequence) -> Self:
+        pass
+
+    @overload
     @classmethod
     def new(
-        cls,
+        cls: type[Self],
+        *sequences: EscapeSequence,
+        file: SupportsWrite[str],
+    ) -> Self:
+        pass
+
+    @classmethod
+    def new(
+        cls: type[Self],
         *sequences: EscapeSequence,
         file: SupportsWrite[str] | None = None,
-    ):
+    ) -> Self:
         """
         Convenient constructor for a Coquille.
         """
