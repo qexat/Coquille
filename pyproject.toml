@@ -1,6 +1,6 @@
 [project]
 name = "Coquille"
-version = "0.1.2"
+version = "0.1.3"
 authors = [{name = "Qexat"}]
 description = "Coquille is a library that wraps terminal escape sequences as convenient functions."
 readme = "README.md"
