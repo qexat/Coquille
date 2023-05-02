@@ -8,6 +8,11 @@ Requires Python 3.9 or higher.
 
 This library attempts to cover as many escape sequences as possible ; but it is not an exhaustive list, some might be missing. Also, you might find that few have no effect on your terminal emulator.
 
+This library is based on the following resources:
+
+- The Wikipedia page: <https://en.m.wikipedia.org/wiki/ANSI_escape_code>
+- Some Microsoft documentation about console virtual terminal sequences: <https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences>
+
 ## Install
 
 ### Normal installation
@@ -35,6 +40,8 @@ coverage report -m
 ```
 
 ## Examples
+
+Even though the examples are mostly showcasing [SGR escape sequences](https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters) (because they are pretty visible), Coquille can do more! See the [documentation](#documentation).
 
 ### Coquille context manager
 
