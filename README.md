@@ -4,6 +4,8 @@ Coquille (IPA: `/kɔ.kij/`, english: 'shell' or 'typo') is a library that wraps 
 
 ## Notes
 
+Requires Python 3.9 or higher.
+
 This library attempts to cover as many escape sequences as possible ; but it is not an exhaustive list, some might be missing. Also, you might find that few have no effect on your terminal emulator.
 
 ## Examples
