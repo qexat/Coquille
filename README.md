@@ -8,6 +8,32 @@ Requires Python 3.9 or higher.
 
 This library attempts to cover as many escape sequences as possible ; but it is not an exhaustive list, some might be missing. Also, you might find that few have no effect on your terminal emulator.
 
+## Install
+
+### Normal installation
+
+```sh
+pip install coquille
+```
+
+### Dev installation
+
+```sh
+pip install coquille[dev]
+```
+
+This allows you to run the tests:
+
+```sh
+coverage run -m pytest
+```
+
+Then check the coverage:
+
+```sh
+coverage report -m
+```
+
 ## Examples
 
 ### Coquille context manager
