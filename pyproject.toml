@@ -1,0 +1,16 @@
+[project]
+name = "Coquille"
+authors = [{name = "Qexat"}]
+description = "Coquille is a library that wraps terminal escape sequences as convenient functions."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+dynamic = ["version"]
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
