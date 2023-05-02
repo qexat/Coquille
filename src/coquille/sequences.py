@@ -40,7 +40,7 @@ RESET = 9
 
 # Helper types
 EscapeSequence = NewType("EscapeSequence", str)
-AltFontNumber = Literal[11, 12, 13, 14, 15, 16, 17, 18, 19]
+AltFontNumber = Literal[1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 
 def escape_sequence(
@@ -167,7 +167,7 @@ def _disable_CSI(*args: int) -> EscapeSequence:
     return _CSI_private("l", *args)
 
 
-def _cursor_shape(n: int) -> EscapeSequence:
+def cursor_shape(n: int) -> EscapeSequence:
     return EscapeSequence(CHAR_ESC + f"[{n} q")
 
 
@@ -200,7 +200,7 @@ def cursor_horizontal_absolute(n: int = 1) -> EscapeSequence:
     return CSI("G", n)
 
 
-def cursor_position(n: int, m: int = 1) -> EscapeSequence:
+def cursor_position(n: int = 1, m: int = 1) -> EscapeSequence:
     return CSI("H", n, m)
 
 
@@ -249,13 +249,13 @@ disable_bracketed_paste_mode = _disable_CSI(BRACKETED_PASTE_MODE)
 
 # *- Cursor shapes -* #
 
-user_defined_cursor_shape = _cursor_shape(0)
-blinking_block_cursor_shape = _cursor_shape(1)
-steady_block_cursor_shape = _cursor_shape(2)
-blinking_underline_cursor_shape = _cursor_shape(3)
-steady_underline_cursor_shape = _cursor_shape(4)
-blinking_bar_cursor_shape = _cursor_shape(5)
-steady_bar_cursor_shape = _cursor_shape(6)
+user_defined_cursor_shape = cursor_shape(0)
+blinking_block_cursor_shape = cursor_shape(1)
+steady_block_cursor_shape = cursor_shape(2)
+blinking_underline_cursor_shape = cursor_shape(3)
+steady_underline_cursor_shape = cursor_shape(4)
+blinking_bar_cursor_shape = cursor_shape(5)
+steady_bar_cursor_shape = cursor_shape(6)
 
 
 # aliases
@@ -312,7 +312,7 @@ primary_font = SGR(10)
 
 
 def alternative_font(n: AltFontNumber) -> EscapeSequence:
-    return SGR(n - 10)
+    return SGR(n + 10)
 
 
 fraktur = SGR(20)  # [RS]

@@ -12,7 +12,7 @@ from coquille.sequences import soft_reset
 __all__ = ["apply", "Coquille", "EscapeSequence", "prepare"]
 
 # ... don't say anything.
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     if sys.version_info >= (3, 10):
         from typing import ParamSpec
 
@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 
 
 @overload
-def prepare(sequence: EscapeSequence) -> EscapeSequence:
+def prepare(sequence: EscapeSequence) -> EscapeSequence:  # pragma: no cover
     pass
 
 
@@ -32,7 +32,7 @@ def prepare(
     sequence: Callable[P, EscapeSequence],
     *args: P.args,
     **kwargs: P.kwargs,
-) -> EscapeSequence:
+) -> EscapeSequence:  # pragma: no cover
     pass
 
 
@@ -55,7 +55,10 @@ def prepare(
 
 
 @overload
-def apply(sequence: EscapeSequence, file: SupportsWrite[str] | None = None) -> None:
+def apply(
+    sequence: EscapeSequence,
+    file: SupportsWrite[str] | None = None,
+) -> None:  # pragma: no cover
     pass
 
 
@@ -65,7 +68,7 @@ def apply(
     file: SupportsWrite[str] | None = None,
     *args: P.args,
     **kwargs: P.kwargs,
-) -> None:
+) -> None:  # pragma: no cover
     pass
 
 
@@ -139,7 +142,7 @@ class Coquille:
 
     @overload
     @classmethod
-    def new(cls: type[Self], *sequences: EscapeSequence) -> Self:
+    def new(cls: type[Self], *sequences: EscapeSequence) -> Self:  # pragma: no cover
         pass
 
     @overload
@@ -148,7 +151,7 @@ class Coquille:
         cls: type[Self],
         *sequences: EscapeSequence,
         file: SupportsWrite[str],
-    ) -> Self:
+    ) -> Self:  # pragma: no cover
         pass
 
     @classmethod
