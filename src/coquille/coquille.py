@@ -175,7 +175,7 @@ class Coquille:
     ) -> None:
         """
         A function relatively similar to built-in `print`, but with
-        support of escape sequences that are prepended before the printed
+        support of escape sequences that are prepended to the printed
         text.
 
         Example:
