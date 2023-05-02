@@ -4,7 +4,8 @@ import sys
 from collections.abc import Callable
 from typing import overload
 
-from coquille.sequences import EscapeSequence, soft_reset
+from coquille.sequences import EscapeSequence
+from coquille.sequences import soft_reset
 from coquille.typeshed import SupportsWrite
 
 __all__ = ["apply", "Coquille", "EscapeSequence", "prepare"]

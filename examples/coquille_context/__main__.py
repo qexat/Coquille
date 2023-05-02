@@ -1,5 +1,7 @@
 from coquille import Coquille
-from coquille.sequences import bold, fg_magenta, italic
+from coquille.sequences import bold
+from coquille.sequences import fg_magenta
+from coquille.sequences import italic
 
 print("Hello World!")
 

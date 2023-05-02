@@ -21,7 +21,8 @@ Some are also taken from Microsoft documentation:
 """
 from __future__ import annotations
 
-from typing import Literal, NewType
+from typing import Literal
+from typing import NewType
 
 
 # Constants
