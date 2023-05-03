@@ -86,3 +86,11 @@ Source code: [examples/coquille_write/](https://github.com/qexat/Coquille/blob/m
 ## Documentation
 
 Coming soon! 🚧
+
+## Related projects
+
+If you like Coquille, you might want to check these projects as well:
+
+- [Colorama](https://github.com/tartley/colorama): a simple cross-platform colored terminal text in Python, by [Jonathan Hartley](https://github.com/tartley)
+- [Rich_](https://github.com/Textualize/rich): a Python library for rich text and beautiful formatting in the terminal, by [Dave Pearson](https://github.com/davep)
+- [Dahlia](https://github.com/dahlia-lib/dahlia): a simple text formatting package, inspired by the game Minecraft, by [trag1c](https://github.com/trag1c/)
