@@ -64,7 +64,7 @@ print("Oh, we are back to normal now...")
 
 Source code: [examples/coquille_context/](https://github.com/qexat/Coquille/blob/main/examples/coquille_context/__main__.py)
 
-### Coquille.print()
+### Coquille.write()
 
 ```py
 from coquille import Coquille
@@ -72,16 +72,16 @@ from coquille.sequences import bold, fg_blue, fg_magenta, italic
 
 print("Hello World!")
 
-Coquille.print("Hello World, but in magenta and italic!", fg_magenta, italic)
+Coquille.write("Hello World, but in magenta and italic!", fg_magenta, italic)
 
-with open("examples/coquille_print/output.txt", "w") as my_file:
-    Coquille.print("A pretty Hello World in a file!", fg_blue, bold, file=my_file)
+with open("examples/coquille_write/output.txt", "w") as my_file:
+    Coquille.write("A pretty Hello World in a file!", fg_blue, bold, file=my_file)
 
 ```
 
-![screenshot.png](https://raw.githubusercontent.com/qexat/Coquille/main/examples/coquille_print/screenshot.png)
+![screenshot.png](https://raw.githubusercontent.com/qexat/Coquille/main/examples/coquille_write/screenshot.png)
 
-Source code: [examples/coquille_print/](https://github.com/qexat/Coquille/blob/main/examples/coquille_print/__main__.py)
+Source code: [examples/coquille_write/](https://github.com/qexat/Coquille/blob/main/examples/coquille_write/__main__.py)
 
 ## Documentation
 
