@@ -167,7 +167,7 @@ class Coquille:
         return cls(list(sequences), file)
 
     @staticmethod
-    def print(
+    def write(
         text: str,
         *sequences: EscapeSequence,
         end: str | None = "\n",
@@ -181,7 +181,7 @@ class Coquille:
         Example:
         ```py
         >>> from coquille.sequences import fg_magenta, italic
-        >>> Coquille.print("Hello World!", fg_magenta, italic)
+        >>> Coquille.write("Hello World!", fg_magenta, italic)
         Hello World!
         ```
         Here, "Hello World!" is printed in italic and magenta, but this
