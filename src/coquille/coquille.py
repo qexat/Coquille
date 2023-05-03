@@ -134,6 +134,26 @@ class _ContextCoquille:
 
         apply(soft_reset, self.file)
 
+    def print(
+        self,
+        *values: object,
+        sep: str | None = None,
+        end: str | None = "\n",
+    ) -> None:
+        """
+        Convenient function to print in the same file as the coquille's one.
+
+        ## Example
+
+        ```py
+        >>> with Coquille.new(bold, fg_red, file=sys.stderr) as coquille:
+        ...     # same as: print("My pretty error message", file=coquille.file)
+        ...     coquille.print("My pretty error message")
+        ```
+        """
+
+        print(*values, sep=sep, end=end, file=self.file)
+
 
 @dataclass(slots=True)
 class Coquille:
