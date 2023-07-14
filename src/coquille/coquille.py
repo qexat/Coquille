@@ -1,5 +1,4 @@
 # pyright: reportUnusedCallResult = false
-
 from __future__ import annotations
 
 import sys
