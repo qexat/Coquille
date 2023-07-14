@@ -1,15 +1,23 @@
 [project]
 name = "Coquille"
-version = "0.1.4"
-authors = [{name = "Qexat"}]
+version = "1.0.1"
+authors = [{ name = "Qexat" }]
 description = "Coquille is a library that wraps terminal escape sequences as convenient functions."
 readme = "README.md"
 requires-python = ">=3.9"
-license = {text = "MIT"}
+license = { file = "LICENSE" }
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
 ]
+keywords = ["terminal", "escape sequences"]
+
+[project.urls]
+homepage = "https://github.com/qexat/Coquille"
+repository = "https://github.com/qexat/Coquille"
+
+[project.optional-dependencies]
+dev = ["pytest", "coverage", "build", "twine"]
 
 [build-system]
 requires = ["setuptools", "setuptools-scm"]
