@@ -1,3 +1,5 @@
+# pyright: reportUnusedCallResult = false
+
 from __future__ import annotations
 
 import sys
@@ -84,7 +86,7 @@ def apply(
 
     string: EscapeSequence = prepare(sequence, *args, **kwargs)
     target = file or sys.stdout
-    target.write(string)  # type: ignore[unused]
+    target.write(string)
 
 
 class _ContextCoquille:
@@ -247,3 +249,6 @@ class Coquille:
         """
 
         apply(soft_reset, self.file)
+
+
+write = Coquille.write
