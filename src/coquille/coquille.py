@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 from coquille.sequences import EscapeSequence
 from coquille.sequences import soft_reset
 
-__all__ = ["apply", "Coquille", "EscapeSequence", "prepare"]
+__all__ = ["apply", "Coquille", "EscapeSequence", "prepare", "write"]
 
 # ... don't say anything.
 if TYPE_CHECKING:  # pragma: no cover
