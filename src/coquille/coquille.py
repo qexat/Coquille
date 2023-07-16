@@ -1,10 +1,11 @@
 # pyright: reportUnusedCallResult = false
 from __future__ import annotations
+from abc import abstractmethod
 
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import overload
+from typing import Protocol, overload
 from typing import TYPE_CHECKING
 
 from coquille.sequences import EscapeSequence
@@ -88,34 +89,24 @@ def apply(
     target.write(string)
 
 
-class _ContextCoquille:
-    __slots__ = ("__sequences", "__file")  # private slots
+class CoquilleLike(Protocol):
+    sequences: list[EscapeSequence]
+    file: SupportsWrite[str] | None
 
-    def __init__(
+    @abstractmethod
+    def print(
         self,
-        sequences: list[EscapeSequence],
-        file: SupportsWrite[str] | None,
+        *values: object,
+        sep: str | None = None,
+        end: str | None = "\n",
     ) -> None:
-        self.__sequences = sequences
-        self.__file = file
+        pass
 
-    @property
-    def sequences(self) -> list[EscapeSequence]:
-        """
-        Read-only ; the base sequences that were applied at the
-        beginning of the `with` block. They are reset when the
-        block ends.
-        """
 
-        return self.__sequences
-
-    @property
-    def file(self) -> SupportsWrite[str] | None:
-        """
-        Read-only ; the file where the sequences are printed in.
-        """
-
-        return self.__file
+@dataclass(slots=True)
+class _ContextCoquille:
+    sequences: list[EscapeSequence]
+    file: SupportsWrite[str] | None
 
     def apply(self, sequence: EscapeSequence) -> None:
         """
@@ -153,7 +144,7 @@ class _ContextCoquille:
         ```
         """
 
-        print(*values, sep=sep, end=end, file=self.file)
+        Coquille.print(self, *values, sep=sep, end=end)
 
 
 @dataclass(slots=True)
@@ -187,28 +178,52 @@ class Coquille:
 
         return cls(list(sequences), file)
 
-    @staticmethod
-    def write(
-        text: str,
-        *sequences: EscapeSequence,
+    def print(
+        self: CoquilleLike,
+        *values: object,
+        sep: str | None = " ",
         end: str | None = "\n",
-        file: SupportsWrite[str] | None = None,
     ) -> None:
         """
-        A function relatively similar to built-in `print`, but with
-        support of escape sequences that are prepended to the printed
-        text.
+        Convenient function to print in the same file as the coquille's one.
+
+        ## Example
+
+        ```py
+        >>> my_coquille = Coquille.new(bold, fg_red, file=sys.stderr)
+        >>> # same as: print("My pretty error message", file=my_coquille.file)
+        >>> my_coquille.print("My pretty error message")
+        ```
+        """
+
+        for sequence in self.sequences:
+            apply(sequence, self.file)
+
+        print(*values, sep=sep, end=end, file=self.file)
+        apply(soft_reset)
+
+    def write(
+        self,
+        text: str,
+        end: str | None = "\n",
+    ) -> None:
+        """
+        A function relatively similar to built-in `print`.
+        It is the same as naked `write`, but it uses the coquille's
+        registered sequences.
 
         Example:
         ```py
+        >>> from coquille import Coquille
         >>> from coquille.sequences import fg_magenta, italic
-        >>> Coquille.write("Hello World!", fg_magenta, italic)
+        >>> my_coquille = Coquille.new(fg_magenta, italic)
+        >>> my_coquille.write("Hello World!")
         Hello World!
         ```
         Here, "Hello World!" is printed in italic and magenta, but this
         cannot be reproduced exactly in docstrings.
 
-        The previous example is roughly the same as doing:
+        The previous example is roughly equivalent to:
         ```py
         >>> print("\x1b[35m", end="")
         >>> print("\x1b[3m", end="")
@@ -220,13 +235,9 @@ class Coquille:
         because the range of allowed escape sequences is larger than SGR.
         """
 
-        for sequence in sequences:
-            apply(sequence, file)
+        self.print(text, end=end)
 
-        print(text, end=end, file=file)
-        apply(soft_reset)
-
-    def __enter__(self):
+    def __enter__(self) -> CoquilleLike:
         """
         Set up a context for a Coquille.
 
@@ -250,4 +261,40 @@ class Coquille:
         apply(soft_reset, self.file)
 
 
-write = Coquille.write
+def write(
+    text: str,
+    *sequences: EscapeSequence,
+    end: str | None = "\n",
+    file: SupportsWrite[str] | None = None,
+) -> None:
+    """
+    A function relatively similar to built-in `print`, but with
+    support of escape sequences that are prepended to the printed
+    text.
+
+    Example:
+    ```py
+    >>> from coquille.sequences import fg_magenta, italic
+    >>> Coquille.write("Hello World!", fg_magenta, italic)
+    Hello World!
+    ```
+    Here, "Hello World!" is printed in italic and magenta, but this
+    cannot be reproduced exactly in docstrings.
+
+    The previous example is roughly the same as doing:
+    ```py
+    >>> print("\x1b[35m", end="")
+    >>> print("\x1b[3m", end="")
+    >>> print("Hello World!")
+    >>> print("\x1b[!p", end="")
+    ```
+
+    Note that the soft reset sequence is used rather than SGR reset `x1b[0m`,
+    because the range of allowed escape sequences is larger than SGR.
+    """
+
+    for sequence in sequences:
+        apply(sequence, file)
+
+    print(text, end=end, file=file)
+    apply(soft_reset)
