@@ -1,11 +1,12 @@
 # pyright: reportUnusedCallResult = false
 from __future__ import annotations
-from abc import abstractmethod
 
 import sys
+from abc import abstractmethod
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Protocol, overload
+from typing import overload
+from typing import Protocol
 from typing import TYPE_CHECKING
 
 from coquille.sequences import EscapeSequence
