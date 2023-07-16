@@ -64,18 +64,35 @@ print("Oh, we are back to normal now...")
 
 Source code: [examples/coquille_context/](https://github.com/qexat/Coquille/blob/main/examples/coquille_context/__main__.py)
 
-### Coquille.write()
+### write()
 
 ```py
-from coquille import Coquille
+from coquille import write
 from coquille.sequences import bold, fg_blue, fg_magenta, italic
 
 print("Hello World!")
 
-Coquille.write("Hello World, but in magenta and italic!", fg_magenta, italic)
+write("Hello World, but in magenta and italic!", fg_magenta, italic)
 
-with open("examples/coquille_write/output.txt", "w") as my_file:
-    Coquille.write("A pretty Hello World in a file!", fg_blue, bold, file=my_file)
+with open("examples/write/output.txt", "w") as my_file:
+    write("A pretty Hello World in a file!", fg_blue, bold, file=my_file)
+
+```
+
+![screenshot.png](https://raw.githubusercontent.com/qexat/Coquille/main/examples/write/screenshot.png)
+
+Source code: [examples/write/](https://github.com/qexat/Coquille/blob/main/examples/write/__main__.py)
+
+### Coquille.write()
+
+```py
+from coquille import Coquille
+from coquille.sequences import fg_truecolor
+
+print("Normal Hello World!")
+
+coquille = Coquille.new(fg_truecolor(128, 255, 0))
+coquille.write("Colorful Hello World!")
 
 ```
 
