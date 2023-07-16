@@ -13,32 +13,6 @@ This library is based on the following resources:
 - The Wikipedia page: <https://en.m.wikipedia.org/wiki/ANSI_escape_code>
 - Some Microsoft documentation about console virtual terminal sequences: <https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences>
 
-## Install
-
-### Normal installation
-
-```sh
-pip install coquille
-```
-
-### Dev installation
-
-```sh
-pip install coquille[dev]
-```
-
-This allows you to run the tests:
-
-```sh
-coverage run -m pytest
-```
-
-Then check the coverage:
-
-```sh
-coverage report -m
-```
-
 ## Examples
 
 Even though the examples are mostly showcasing [SGR escape sequences](https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters) (because they are pretty visible), Coquille can do more! See the [documentation](#documentation).
@@ -99,6 +73,32 @@ coquille.write("Colorful Hello World!")
 ![screenshot.png](https://raw.githubusercontent.com/qexat/Coquille/main/examples/coquille_write/screenshot.png)
 
 Source code: [examples/coquille_write/](https://github.com/qexat/Coquille/blob/main/examples/coquille_write/__main__.py)
+
+## Install
+
+### Normal installation
+
+```sh
+pip install coquille
+```
+
+### Dev installation
+
+```sh
+pip install coquille[dev]
+```
+
+This allows you to run the tests:
+
+```sh
+coverage run -m pytest
+```
+
+Then check the coverage:
+
+```sh
+coverage report -m
+```
 
 ## Documentation
 
