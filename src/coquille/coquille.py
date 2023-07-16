@@ -238,7 +238,7 @@ class Coquille:
 
         self.print(text, end=end)
 
-    def __enter__(self) -> CoquilleLike:
+    def __enter__(self) -> _ContextCoquille:
         """
         Set up a context for a Coquille.
 
