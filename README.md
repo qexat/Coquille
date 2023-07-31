@@ -21,17 +21,17 @@ Even though the examples are mostly showcasing [SGR escape sequences](https://en
 
 ```py
 from coquille import Coquille
-from coquille.sequences import bold, fg_magenta, italic
 
 print("Hello World!")
 
 # By default, the coquille wraps the standard output
-with Coquille.new(fg_magenta, italic) as coquille:
+with Coquille.new("fg_magenta", "italic") as coquille:
     print("Hello World, but in magenta and italic!")
-    coquille.apply(bold)
+    coquille.apply("bold")
     print("Now, with a touch of bold :D")
 
 print("Oh, we are back to normal now...")
+
 ```
 
 ![screenshot.png](https://raw.githubusercontent.com/qexat/Coquille/main/examples/coquille_context/screenshot.png)
@@ -42,14 +42,13 @@ Source code: [examples/coquille_context/](https://github.com/qexat/Coquille/blob
 
 ```py
 from coquille import write
-from coquille.sequences import bold, fg_blue, fg_magenta, italic
 
 print("Hello World!")
 
-write("Hello World, but in magenta and italic!", fg_magenta, italic)
+write("Hello World, but in magenta and italic!", "fg_magenta", "italic")
 
 with open("examples/write/output.txt", "w") as my_file:
-    write("A pretty Hello World in a file!", fg_blue, bold, file=my_file)
+    write("A pretty Hello World in a file!", "fg_blue", "bold", file=my_file)
 
 ```
 

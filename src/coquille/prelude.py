@@ -10,9 +10,19 @@ from typing import Protocol
 from typing import TYPE_CHECKING
 
 from coquille.sequences import EscapeSequence
+from coquille.sequences import EscapeSequenceName
+from coquille.sequences import get_sequence_from_name
 from coquille.sequences import soft_reset
 
-__all__ = ["apply", "Coquille", "EscapeSequence", "prepare", "write"]
+__all__ = [
+    "apply",
+    "Coquille",
+    "EscapeSequence",
+    "EscapeSequenceName",
+    "prepare",
+    "write",
+]
+
 
 # ... don't say anything.
 if TYPE_CHECKING:  # pragma: no cover
@@ -26,7 +36,9 @@ if TYPE_CHECKING:  # pragma: no cover
 
 
 @overload
-def prepare(sequence: EscapeSequence) -> EscapeSequence:  # pragma: no cover
+def prepare(
+    sequence: EscapeSequence | EscapeSequenceName,
+) -> EscapeSequence:  # pragma: no cover
     pass
 
 
@@ -40,7 +52,7 @@ def prepare(
 
 
 def prepare(
-    sequence: EscapeSequence | Callable[P, EscapeSequence],
+    sequence: EscapeSequence | EscapeSequenceName | Callable[P, EscapeSequence],
     *args: P.args,
     **kwargs: P.kwargs,
 ) -> EscapeSequence:
@@ -51,15 +63,17 @@ def prepare(
     the arguments to the escape sequence factory to construct one.
     """
 
-    if isinstance(sequence, str):
+    if isinstance(sequence, EscapeSequence):
         return sequence
+    elif isinstance(sequence, str):
+        return get_sequence_from_name(sequence)
 
     return sequence(*args, **kwargs)
 
 
 @overload
 def apply(
-    sequence: EscapeSequence,
+    sequence: EscapeSequence | EscapeSequenceName,
     file: SupportsWrite[str] | None = None,
 ) -> None:  # pragma: no cover
     pass
@@ -76,7 +90,7 @@ def apply(
 
 
 def apply(
-    sequence: EscapeSequence | Callable[P, EscapeSequence],
+    sequence: EscapeSequence | EscapeSequenceName | Callable[P, EscapeSequence],
     file: SupportsWrite[str] | None = None,
     *args: P.args,
     **kwargs: P.kwargs,
@@ -109,7 +123,7 @@ class _ContextCoquille:
     sequences: list[EscapeSequence]
     file: SupportsWrite[str] | None
 
-    def apply(self, sequence: EscapeSequence) -> None:
+    def apply(self, sequence: EscapeSequence | EscapeSequenceName) -> None:
         """
         Apply an escape sequence in the context manager of a Coquille
         in live.
@@ -155,14 +169,17 @@ class Coquille:
 
     @overload
     @classmethod
-    def new(cls: type[Self], *sequences: EscapeSequence) -> Self:  # pragma: no cover
+    def new(
+        cls: type[Self],
+        *sequences: EscapeSequence | EscapeSequenceName,
+    ) -> Self:  # pragma: no cover
         pass
 
     @overload
     @classmethod
     def new(
         cls: type[Self],
-        *sequences: EscapeSequence,
+        *sequences: EscapeSequence | EscapeSequenceName,
         file: SupportsWrite[str],
     ) -> Self:  # pragma: no cover
         pass
@@ -170,7 +187,7 @@ class Coquille:
     @classmethod
     def new(
         cls: type[Self],
-        *sequences: EscapeSequence,
+        *sequences: EscapeSequence | EscapeSequenceName,
         file: SupportsWrite[str] | None = None,
     ) -> Self:
         """
@@ -264,7 +281,7 @@ class Coquille:
 
 def write(
     text: str,
-    *sequences: EscapeSequence,
+    *sequences: EscapeSequence | EscapeSequenceName,
     end: str | None = "\n",
     file: SupportsWrite[str] | None = None,
 ) -> None:

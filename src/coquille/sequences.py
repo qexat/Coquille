@@ -20,7 +20,6 @@ Some are also taken from Microsoft documentation:
 - [RS] = rarely (never, basically) supported.
 """
 from typing import Literal
-from typing import NewType
 
 
 # Constants
@@ -39,8 +38,12 @@ RESET = 9
 
 
 # Helper types
-EscapeSequence = NewType("EscapeSequence", str)
+EscapeSequenceName = str
 AltFontNumber = Literal[1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+
+class EscapeSequence(str):
+    pass
 
 
 def escape_sequence(
@@ -461,3 +464,18 @@ soft_reset = ESC("[!", "p")
 
 # aliases
 DECSTR = soft_reset
+
+
+def get_sequence_from_name(name: str) -> EscapeSequence:
+    module_items = dict(globals())
+    sequence_error = ValueError(f"{name!r} is not a valid escape sequence name")
+
+    if name not in module_items:
+        raise sequence_error
+
+    sequence = module_items[name]
+
+    if not isinstance(sequence, EscapeSequence):
+        raise sequence_error
+
+    return sequence

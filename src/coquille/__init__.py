@@ -1,1 +1,1 @@
-from coquille.coquille import *
+from coquille.prelude import *
