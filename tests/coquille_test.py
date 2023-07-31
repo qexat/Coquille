@@ -1,6 +1,6 @@
-import pytest
 from io import StringIO
 
+import pytest
 from coquille.prelude import *
 from coquille.sequences import DEC_save_cursor
 from coquille.sequences import erase_in_display
