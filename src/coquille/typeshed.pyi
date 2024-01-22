@@ -6,9 +6,7 @@ from abc import abstractmethod
 from typing import Protocol
 from typing import TypeVar
 
-
 _T_contra = TypeVar("_T_contra", contravariant=True)
-
 
 class SupportsWriteAndFlush(Protocol[_T_contra]):
     @abstractmethod
@@ -18,6 +16,5 @@ class SupportsWriteAndFlush(Protocol[_T_contra]):
     @abstractmethod
     def flush(self) -> None:
         pass
-
 
 Self = TypeVar("Self")
