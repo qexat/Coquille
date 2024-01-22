@@ -5,9 +5,11 @@ import sys
 from abc import abstractmethod
 from collections.abc import Callable
 from dataclasses import dataclass
+from typing import Optional
 from typing import overload
 from typing import Protocol
 from typing import TYPE_CHECKING
+from typing import Union
 
 from coquille.sequences import EscapeSequence
 from coquille.sequences import EscapeSequenceName
@@ -35,24 +37,8 @@ if TYPE_CHECKING:  # pragma: no cover
     from coquille.typeshed import SupportsWriteAndFlush
 
 
-@overload
 def prepare(
-    sequence: EscapeSequence | EscapeSequenceName,
-) -> EscapeSequence:  # pragma: no cover
-    pass
-
-
-@overload
-def prepare(
-    sequence: Callable[P, EscapeSequence],
-    *args: P.args,
-    **kwargs: P.kwargs,
-) -> EscapeSequence:  # pragma: no cover
-    pass
-
-
-def prepare(
-    sequence: EscapeSequence | EscapeSequenceName | Callable[P, EscapeSequence],
+    sequence: Union[EscapeSequence, EscapeSequenceName, Callable[P, EscapeSequence]],
     *args: P.args,
     **kwargs: P.kwargs,
 ) -> EscapeSequence:
@@ -73,8 +59,8 @@ def prepare(
 
 @overload
 def apply(
-    sequence: EscapeSequence | EscapeSequenceName,
-    file: SupportsWriteAndFlush[str] | None = None,
+    sequence: Union[EscapeSequence, EscapeSequenceName],
+    file: Optional[SupportsWriteAndFlush[str]] = None,
 ) -> None:  # pragma: no cover
     pass
 
@@ -82,7 +68,7 @@ def apply(
 @overload
 def apply(
     sequence: Callable[P, EscapeSequence],
-    file: SupportsWriteAndFlush[str] | None = None,
+    file: Optional[SupportsWriteAndFlush[str]] = None,
     *args: P.args,
     **kwargs: P.kwargs,
 ) -> None:  # pragma: no cover
@@ -90,8 +76,8 @@ def apply(
 
 
 def apply(
-    sequence: EscapeSequence | EscapeSequenceName | Callable[P, EscapeSequence],
-    file: SupportsWriteAndFlush[str] | None = None,
+    sequence: Union[EscapeSequence, EscapeSequenceName, Callable[P, EscapeSequence]],
+    file: Optional[SupportsWriteAndFlush[str]] = None,
     *args: P.args,
     **kwargs: P.kwargs,
 ) -> None:
@@ -107,24 +93,24 @@ def apply(
 
 class CoquilleLike(Protocol):
     sequences: list[EscapeSequence]
-    file: SupportsWriteAndFlush[str] | None
+    file: Optional[SupportsWriteAndFlush[str]]
 
     @abstractmethod
     def print(
         self,
         *values: object,
-        sep: str | None = None,
-        end: str | None = "\n",
+        sep: Optional[str] = None,
+        end: Optional[str] = "\n",
     ) -> None:
         pass
 
 
-@dataclass(slots=True)
+@dataclass
 class _ContextCoquille:
     sequences: list[EscapeSequence]
-    file: SupportsWriteAndFlush[str] | None
+    file: Optional[SupportsWriteAndFlush[str]]
 
-    def apply(self, sequence: EscapeSequence | EscapeSequenceName) -> None:
+    def apply(self, sequence: Union[EscapeSequence, EscapeSequenceName]) -> None:
         """
         Apply an escape sequence in the context manager of a Coquille
         in live.
@@ -145,8 +131,8 @@ class _ContextCoquille:
     def print(
         self,
         *values: object,
-        sep: str | None = None,
-        end: str | None = "\n",
+        sep: Optional[str] = None,
+        end: Optional[str] = "\n",
     ) -> None:
         """
         Convenient function to print in the same file as the coquille's one.
@@ -163,16 +149,16 @@ class _ContextCoquille:
         Coquille.print(self, *values, sep=sep, end=end)
 
 
-@dataclass(slots=True)
+@dataclass
 class Coquille:
     sequences: list[EscapeSequence]
-    file: SupportsWriteAndFlush[str] | None
+    file: Optional[SupportsWriteAndFlush[str]]
 
     @overload
     @classmethod
     def new(
         cls: type[Self],
-        *sequences: EscapeSequence | EscapeSequenceName,
+        *sequences: Union[EscapeSequence, EscapeSequenceName],
     ) -> Self:  # pragma: no cover
         pass
 
@@ -180,7 +166,7 @@ class Coquille:
     @classmethod
     def new(
         cls: type[Self],
-        *sequences: EscapeSequence | EscapeSequenceName,
+        *sequences: Union[EscapeSequence, EscapeSequenceName],
         file: SupportsWriteAndFlush[str],
     ) -> Self:  # pragma: no cover
         pass
@@ -188,8 +174,8 @@ class Coquille:
     @classmethod
     def new(
         cls: type[Self],
-        *sequences: EscapeSequence | EscapeSequenceName,
-        file: SupportsWriteAndFlush[str] | None = None,
+        *sequences: Union[EscapeSequence, EscapeSequenceName],
+        file: Optional[SupportsWriteAndFlush[str]] = None,
     ) -> Self:
         """
         Convenient constructor for a Coquille.
@@ -200,8 +186,8 @@ class Coquille:
     def print(
         self: CoquilleLike,
         *values: object,
-        sep: str | None = " ",
-        end: str | None = "\n",
+        sep: Optional[str] = " ",
+        end: Optional[str] = "\n",
     ) -> None:
         """
         Convenient function to print in the same file as the coquille's one.
@@ -224,7 +210,7 @@ class Coquille:
     def write(
         self,
         text: str,
-        end: str | None = "\n",
+        end: Optional[str] = "\n",
     ) -> None:
         """
         A function relatively similar to built-in `print`.
@@ -282,9 +268,9 @@ class Coquille:
 
 def write(
     text: str,
-    *sequences: EscapeSequence | EscapeSequenceName,
-    end: str | None = "\n",
-    file: SupportsWriteAndFlush[str] | None = None,
+    *sequences: Union[EscapeSequence, EscapeSequenceName],
+    end: Optional[str] = "\n",
+    file: Optional[SupportsWriteAndFlush[str]] = None,
 ) -> None:
     """
     A function relatively similar to built-in `print`, but with
