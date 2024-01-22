@@ -10,9 +10,13 @@ from typing import TypeVar
 _T_contra = TypeVar("_T_contra", contravariant=True)
 
 
-class SupportsWrite(Protocol[_T_contra]):
+class SupportsWriteAndFlush(Protocol[_T_contra]):
     @abstractmethod
     def write(self, __s: _T_contra) -> object:
+        pass
+
+    @abstractmethod
+    def flush(self) -> None:
         pass
 
 

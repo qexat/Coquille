@@ -32,7 +32,7 @@ if TYPE_CHECKING:  # pragma: no cover
         P = ParamSpec("P")
 
     from coquille.typeshed import Self
-    from coquille.typeshed import SupportsWrite
+    from coquille.typeshed import SupportsWriteAndFlush
 
 
 @overload
@@ -74,7 +74,7 @@ def prepare(
 @overload
 def apply(
     sequence: EscapeSequence | EscapeSequenceName,
-    file: SupportsWrite[str] | None = None,
+    file: SupportsWriteAndFlush[str] | None = None,
 ) -> None:  # pragma: no cover
     pass
 
@@ -82,7 +82,7 @@ def apply(
 @overload
 def apply(
     sequence: Callable[P, EscapeSequence],
-    file: SupportsWrite[str] | None = None,
+    file: SupportsWriteAndFlush[str] | None = None,
     *args: P.args,
     **kwargs: P.kwargs,
 ) -> None:  # pragma: no cover
@@ -91,7 +91,7 @@ def apply(
 
 def apply(
     sequence: EscapeSequence | EscapeSequenceName | Callable[P, EscapeSequence],
-    file: SupportsWrite[str] | None = None,
+    file: SupportsWriteAndFlush[str] | None = None,
     *args: P.args,
     **kwargs: P.kwargs,
 ) -> None:
@@ -102,11 +102,12 @@ def apply(
     string: EscapeSequence = prepare(sequence, *args, **kwargs)
     target = file or sys.stdout
     target.write(string)
+    target.flush()
 
 
 class CoquilleLike(Protocol):
     sequences: list[EscapeSequence]
-    file: SupportsWrite[str] | None
+    file: SupportsWriteAndFlush[str] | None
 
     @abstractmethod
     def print(
@@ -121,7 +122,7 @@ class CoquilleLike(Protocol):
 @dataclass(slots=True)
 class _ContextCoquille:
     sequences: list[EscapeSequence]
-    file: SupportsWrite[str] | None
+    file: SupportsWriteAndFlush[str] | None
 
     def apply(self, sequence: EscapeSequence | EscapeSequenceName) -> None:
         """
@@ -165,7 +166,7 @@ class _ContextCoquille:
 @dataclass(slots=True)
 class Coquille:
     sequences: list[EscapeSequence]
-    file: SupportsWrite[str] | None
+    file: SupportsWriteAndFlush[str] | None
 
     @overload
     @classmethod
@@ -180,7 +181,7 @@ class Coquille:
     def new(
         cls: type[Self],
         *sequences: EscapeSequence | EscapeSequenceName,
-        file: SupportsWrite[str],
+        file: SupportsWriteAndFlush[str],
     ) -> Self:  # pragma: no cover
         pass
 
@@ -188,7 +189,7 @@ class Coquille:
     def new(
         cls: type[Self],
         *sequences: EscapeSequence | EscapeSequenceName,
-        file: SupportsWrite[str] | None = None,
+        file: SupportsWriteAndFlush[str] | None = None,
     ) -> Self:
         """
         Convenient constructor for a Coquille.
@@ -283,7 +284,7 @@ def write(
     text: str,
     *sequences: EscapeSequence | EscapeSequenceName,
     end: str | None = "\n",
-    file: SupportsWrite[str] | None = None,
+    file: SupportsWriteAndFlush[str] | None = None,
 ) -> None:
     """
     A function relatively similar to built-in `print`, but with
