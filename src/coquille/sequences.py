@@ -20,6 +20,7 @@ Some are also taken from Microsoft documentation:
 - [RS] = rarely (never, basically) supported.
 """
 from typing import Literal
+from typing import Optional
 
 
 # Constants
@@ -48,7 +49,7 @@ class EscapeSequence(str):
 
 def escape_sequence(
     code: str,
-    subcode: str | None = None,
+    subcode: Optional[str] = None,
     *args: int,
 ) -> EscapeSequence:
     r"""
