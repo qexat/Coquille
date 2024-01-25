@@ -13,9 +13,15 @@ This library is based on the following resources:
 - The Wikipedia page: <https://en.m.wikipedia.org/wiki/ANSI_escape_code>
 - Some Microsoft documentation about console virtual terminal sequences: <https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences>
 
+## Applications that use Coquille
+
+### Babble
+
+[**Babble**](https://github.com/qexat/Babble) is a pretty visual noise generator TUI application. Its custom rendering engine is designed on top of Coquille!
+
 ## Examples
 
-Even though the examples are mostly showcasing [SGR escape sequences](https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters) (because they are pretty visible), Coquille can do more! See the [documentation](#documentation).
+Even though the examples are mostly showcasing [SGR escape sequences](<https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters>) (because they are pretty visible), Coquille can do more! See the [documentation](#documentation).
 
 ### Coquille context manager
 
@@ -108,5 +114,5 @@ Coming soon! 🚧
 If you like Coquille, you might want to check these projects as well:
 
 - [Colorama](https://github.com/tartley/colorama): a simple cross-platform colored terminal text in Python, by [Jonathan Hartley](https://github.com/tartley)
-- [Rich_](https://github.com/Textualize/rich): a Python library for rich text and beautiful formatting in the terminal, by [Will McGugan](https://github.com/willmcgugan)
+- [Rich\_](https://github.com/Textualize/rich): a Python library for rich text and beautiful formatting in the terminal, by [Will McGugan](https://github.com/willmcgugan)
 - [Dahlia](https://github.com/dahlia-lib/dahlia): a simple text formatting package, inspired by the game Minecraft, by [trag1c](https://github.com/trag1c/)
